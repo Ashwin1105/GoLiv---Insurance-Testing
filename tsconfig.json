@@ -1,22 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "target": "es2020",
+    "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node", "@types/playwright", "@types/cucumber"],
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "outDir": "./dist"
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts",
-    "steps/**/*.ts",
-    "support/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*"]
 }
