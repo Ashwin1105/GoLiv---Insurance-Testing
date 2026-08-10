@@ -56,169 +56,169 @@ When the user opens the premium calculator
     And the user submits premium inputs for "C53"
     Then a premium result should be shown for "C53"
 
-@C213
-  Scenario: C213 - Validate Null Plan Type Processing Behavior
+@C225
+  Scenario: C225 - AC_001 Empty Input Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C213"
-    Then a premium result should be shown for "C213"
+    And the user submits premium inputs for "C225"
+    Then a premium result should be shown for "C225"
 
-@C214
-  Scenario: C214 - Verify Scheme Validation with Special Characters and Extreme Lengths
+@C226
+  Scenario: C226 - AC_002 Maximum Value Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C214"
-    Then a premium result should be shown for "C214"
+    And the user submits premium inputs for "C226"
+    Then a premium result should be shown for "C226"
 
-@C215
-  Scenario: C215 - Verify Age Band Calculation at Precision Boundaries
+@C227
+  Scenario: C227 - AC_003 Invalid Format Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C215"
-    Then a premium result should be shown for "C215"
+    And the user submits premium inputs for "C227"
+    Then a premium result should be shown for "C227"
 
-@C216
-  Scenario: C216 - Verify Tenure Rejection Below Minimum Threshold
+@C228
+  Scenario: C228 - AC_004 Missing Field Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C216"
-    Then a premium result should be shown for "C216"
+    And the user submits premium inputs for "C228"
+    Then a premium result should be shown for "C228"
 
-@C217
-  Scenario: C217 - Validate Mutual Exclusion Constraints for Selected Schemes
+@C229
+  Scenario: C229 - AC_005 Duplicate Input Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C217"
-    Then a premium result should be shown for "C217"
+    And the user submits premium inputs for "C229"
+    Then a premium result should be shown for "C229"
 
-@C218
-  Scenario: C218 - Verify Post-Dated Plan Changes Constraints
+@C230
+  Scenario: C230 - AC_006 Invalid Data Type Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C218"
-    Then a premium result should be shown for "C218"
+    And the user submits premium inputs for "C230"
+    Then a premium result should be shown for "C230"
 
-@C219
-  Scenario: C219 - Evaluate Zero Value Calculation Resilience
+@C231
+  Scenario: C231 - AC_007 Out-of-Range Value Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C219"
-    Then a premium result should be shown for "C219"
+    And the user submits premium inputs for "C231"
+    Then a premium result should be shown for "C231"
 
-@C220
-  Scenario: C220 - Verify Cancellation Concurrency with Payment Schedules
+@C232
+  Scenario: C232 - AC_008 Null Pointer Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C220"
-    Then a premium result should be shown for "C220"
+    And the user submits premium inputs for "C232"
+    Then a premium result should be shown for "C232"
 
-@C221
-  Scenario: C221 - Validate Expiry Boundary Resolution
+@C233
+  Scenario: C233 - AC_009 Timeout Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C221"
-    Then a premium result should be shown for "C221"
+    And the user submits premium inputs for "C233"
+    Then a premium result should be shown for "C233"
 
-@C222
-  Scenario: C222 - Verify Database Lock During Scheme Mutate Execution
+@C234
+  Scenario: C234 - AC_010 Concurrent Access Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C222"
-    Then a premium result should be shown for "C222"
+    And the user submits premium inputs for "C234"
+    Then a premium result should be shown for "C234"
 
-@C223
-  Scenario: C223 - Verify Overlapping Age Band Configuration Rules
+@C235
+  Scenario: C235 - AC_011 Resource Leak Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C223"
-    Then a premium result should be shown for "C223"
+    And the user submits premium inputs for "C235"
+    Then a premium result should be shown for "C235"
 
-@C224
-  Scenario: C224 - Verify Configuration Fallback Logic
+@C236
+  Scenario: C236 - AC_012 Edge Case Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "C224"
-    Then a premium result should be shown for "C224"
+    And the user submits premium inputs for "C236"
+    Then a premium result should be shown for "C236"
 
 @TC_EC_001
-  Scenario: TC_EC_001 - Validate Null Plan Type Processing Behavior
+  Scenario: TC_EC_001 - AC_001 Empty Input Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_001"
     Then a premium result should be shown for "TC_EC_001"
 
 @TC_EC_002
-  Scenario: TC_EC_002 - Verify Scheme Validation with Special Characters and Extreme Lengths
+  Scenario: TC_EC_002 - AC_002 Maximum Value Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_002"
     Then a premium result should be shown for "TC_EC_002"
 
 @TC_EC_003
-  Scenario: TC_EC_003 - Verify Age Band Calculation at Precision Boundaries
+  Scenario: TC_EC_003 - AC_003 Invalid Format Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_003"
     Then a premium result should be shown for "TC_EC_003"
 
 @TC_EC_004
-  Scenario: TC_EC_004 - Verify Tenure Rejection Below Minimum Threshold
+  Scenario: TC_EC_004 - AC_004 Missing Field Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_004"
     Then a premium result should be shown for "TC_EC_004"
 
 @TC_EC_005
-  Scenario: TC_EC_005 - Validate Mutual Exclusion Constraints for Selected Schemes
+  Scenario: TC_EC_005 - AC_005 Duplicate Input Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_005"
     Then a premium result should be shown for "TC_EC_005"
 
 @TC_EC_006
-  Scenario: TC_EC_006 - Verify Post-Dated Plan Changes Constraints
+  Scenario: TC_EC_006 - AC_006 Invalid Data Type Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_006"
     Then a premium result should be shown for "TC_EC_006"
 
 @TC_EC_007
-  Scenario: TC_EC_007 - Evaluate Zero Value Calculation Resilience
+  Scenario: TC_EC_007 - AC_007 Out-of-Range Value Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_007"
     Then a premium result should be shown for "TC_EC_007"
 
 @TC_EC_008
-  Scenario: TC_EC_008 - Verify Cancellation Concurrency with Payment Schedules
+  Scenario: TC_EC_008 - AC_008 Null Pointer Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_008"
     Then a premium result should be shown for "TC_EC_008"
 
 @TC_EC_009
-  Scenario: TC_EC_009 - Validate Expiry Boundary Resolution
+  Scenario: TC_EC_009 - AC_009 Timeout Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_009"
     Then a premium result should be shown for "TC_EC_009"
 
 @TC_EC_010
-  Scenario: TC_EC_010 - Verify Database Lock During Scheme Mutate Execution
+  Scenario: TC_EC_010 - AC_010 Concurrent Access Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_010"
     Then a premium result should be shown for "TC_EC_010"
 
 @TC_EC_011
-  Scenario: TC_EC_011 - Verify Overlapping Age Band Configuration Rules
+  Scenario: TC_EC_011 - AC_011 Resource Leak Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_011"
     Then a premium result should be shown for "TC_EC_011"
 
 @TC_EC_012
-  Scenario: TC_EC_012 - Verify Configuration Fallback Logic
+  Scenario: TC_EC_012 - AC_012 Edge Case Test
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_012"
