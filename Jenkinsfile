@@ -1,9 +1,14 @@
 pipeline {
   agent any
 
-  tools {
-    maven 'Maven'
-  }
+  // Maven is intentionally NOT declared in a top-level tools{} block — that
+  // directive is resolved before any stage runs regardless of which
+  // FRAMEWORK branch below actually executes, so a Jenkins instance with no
+  // Maven installation configured would fail on EVERY framework, including
+  // Playwright/Cypress runs that never touch Maven at all. Real bug hit
+  // live: default framework was playwright-bdd, and the build still failed
+  // at pipeline startup on a missing Maven tool. Resolved dynamically
+  // instead, only inside the java branch below.
 
   parameters {
     string(name: 'FRAMEWORK',   defaultValue: 'playwright---typescript---cucumber-bdd---allure---jenkinsfile---github-actions', description: 'Framework: java-bdd, java-testng, playwright-bdd, playwright, cypress')
@@ -36,11 +41,17 @@ pipeline {
           def appUrl = params.APP_URL ?: 'http://host.docker.internal:5176'
 
           if (fw.contains('java')) {
-            if (filter) {
-              def tags = filter.tokenize('|').collect { '@' + it.trim() }.join(' or ')
-              bat "mvn clean test \"-Dcucumber.filter.tags=${tags}\" \"-Dapp.url=${appUrl}\""
-            } else {
-              bat "mvn clean test \"-Dapp.url=${appUrl}\""
+            // Maven installation must be configured in Jenkins (Manage
+            // Jenkins > Tools > Maven installations, name it exactly
+            // "Maven") — only required for this branch, not the others.
+            def mvnHome = tool name: 'Maven', type: 'maven'
+            withEnv(["PATH+MAVEN=${mvnHome}\\bin"]) {
+              if (filter) {
+                def tags = filter.tokenize('|').collect { '@' + it.trim() }.join(' or ')
+                bat "mvn clean test \"-Dcucumber.filter.tags=${tags}\" \"-Dapp.url=${appUrl}\""
+              } else {
+                bat "mvn clean test \"-Dapp.url=${appUrl}\""
+              }
             }
           } else if (fw.contains('playwright-bdd') || (fw.contains('playwright') && fw.contains('bdd'))) {
             bat 'npm install'
