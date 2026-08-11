@@ -1,7 +1,20 @@
 import { Given, When, Then} from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
-const EXPECTED: Record<string, { testid: string; contains?: string; present?: boolean }> = {};
+const EXPECTED: Record<string, { testid: string; contains?: string; present?: boolean }> = {
+  "TC_LIF_016": {
+    "testid": "claim-result-acknowledgement-tat",
+    "contains": "3 working days"
+  },
+  "TC_LIF_025": {
+    "testid": "paidup-result",
+    "present": true
+  },
+  "TC_EC_017": {
+    "testid": "claim-result-acknowledgement-tat",
+    "contains": "3 working days"
+  }
+};
 
 async function withCap<T>(p: Promise<T>, ms = 4000): Promise<void>{
   try { await Promise.race([p, new Promise((res) =>setTimeout(res, ms))]); } catch (e) {}
@@ -19,7 +32,7 @@ async function softSet(page: any, t: string, v: string) {
 }
 async function ensureLoggedIn(page: any) { const u = page.getByTestId('login-username'); if (await u.count()) { await u.fill('admin'); await softFill(page, 'login-password', 'admin123'); await softClick(page, 'login-btn'); await page.waitForLoadState('networkidle'); } }
 
-Given('the user is logged in to the insurance portal', async function () { await this.page.goto('http://host.docker.internal:5176'); await this.page.waitForLoadState('networkidle'); await ensureLoggedIn(this.page); });
+Given('the user is logged in to the insurance portal', async function () { await this.page.goto('http://localhost:5176'); await this.page.waitForLoadState('networkidle'); await ensureLoggedIn(this.page); });
 When('the user opens the premium calculator', async function () { await softClick(this.page, 'nav-tab-1'); await this.page.waitForTimeout(300); });
 When('the user opens claim management', async function () { await softClick(this.page, 'nav-tab-2'); await this.page.waitForTimeout(300); });
 When('the user opens lapse and revival', async function () { await softClick(this.page, 'nav-tab-3'); await this.page.waitForTimeout(300); });
