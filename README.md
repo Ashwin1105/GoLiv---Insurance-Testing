@@ -1,276 +1,239 @@
-import { Before, After, Given, Then, When, setDefaultTimeout } from '@cucumber/cucumber';
-import { chromium, expect, type Browser, type BrowserContext, type Page } from '@playwright/test';
-import fs from 'fs';
-import path from 'path';
-
-setDefaultTimeout(15 * 1000);
-
-type WorldState = {
-  browser?: Browser;
-  context?: BrowserContext;
-  page?: Page;
-};
-
-declare module '@cucumber/cucumber' {
-  interface World extends WorldState {}
-}
-
-Before(async function () {
-  this.browser = await chromium.launch({ headless: true });
-  this.context = await this.browser.newContext();
-  this.page = await this.context.newPage();
-  await this.page.goto('http://localhost:5176');
-});
-
-After(async function (scenario) {
-  if (scenario.result?.status === 'FAILED' && this.page) {
-    const screenshotsDir = path.join(process.cwd(), 'artifacts');
-    if (!fs.existsSync(screenshotsDir)) {
-      fs.mkdirSync(screenshotsDir, { recursive: true });
-    }
-    await this.page.screenshot({
-      path: path.join(screenshotsDir, `${scenario.pickle.name.replace(/[^a-z0-9_-]+/gi, '_')}.png`),
-      fullPage: true,
-    });
-  }
-
-  if (this.page) await this.page.close();
-  if (this.context) await this.context.close();
-  if (this.browser) await this.browser.close();
-});
-
-Given('I log in to InsureCo Portal', async function () {
-  await this.page!.locator('[data-testid="login-username"]').fill('admin');
-  await this.page!.locator('[data-testid="login-password"]').fill('admin123');
-  await this.page!.locator('[data-testid="login-btn"]').click();
-  await expect(this.page!.locator('[data-testid="main-nav"]')).toBeVisible();
-});
-
-Given('I am on the dashboard page', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
-
-When('I open product card {int}', async function (cardNumber: number) {
-  await this.page!.locator(`[data-testid="product-card-${cardNumber}"]`).click();
-});
-
-When('I navigate to tab {int}', async function (tabIndex: number) {
-  await this.page!.locator(`[data-testid="nav-tab-${tabIndex}"]`).click();
-});
-
-When('I logout from the portal', async function () {
-  await this.page!.locator('[data-testid="logout-btn"]').click();
-});
-
-Then('the main navigation should be visible', async function () {
-  await expect(this.page!.locator('[data-testid="main-nav"]')).toBeVisible();
-});
-
-Then('the dashboard page should be visible', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
-
-Then('the selected product card should be visible', async function () {
-  const cards = this.page!.locator('[data-testid^="product-card-"]');
-  await expect(cards.first()).toBeVisible();
-});
-
-Then('I should see the main navigation count {int}', async function (expectedCount: number) {
-  await expect(this.page!.locator('[data-testid="main-nav"]').locator('*')).toHaveCount(expectedCount);
-});
-
-Then('I should see no dashboard page', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]').count()).resolves.toBe(0);
-});
-
-Then('I should be logged out', async function () {
-  await expect(this.page!.locator('[data-testid="login-btn"]')).toBeVisible();
-});
-
-Given('I need to verify term plan entry age minimum 18 years accepted', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
-
-Then('term plan age 18 should be accepted', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
-
-Given('I need to verify term plan entry age maximum 65 years accepted', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
-
-Then('term plan age 65 should be accepted', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+# InsureCo Portal Automation README
+
+## Overview
+
+This repository contains end-to-end automation for the InsureCo Portal using Playwright, TypeScript, Cucumber BDD, Allure reporting, Jenkins, and GitHub Actions.
+
+The application under test is a single-page tabbed portal at `http://localhost:5176`. Navigation must be performed by clicking the provided tab/card controls; there are no URL routes for switching screens.
+
+## Test scope
+
+The regression suite includes the following 58 scenarios:
+
+- TC_LIF_001 | PASS | Verify term plan entry age minimum 18 years accepted
+- TC_LIF_002 | PASS | Verify term plan entry age maximum 65 years accepted
+- TC_LIF_003 | PASS | Verify policy term minimum 5 years is accepted
+- TC_LIF_004 | PASS | Verify policy term maximum 40 years is accepted
+- TC_LIF_005 | PASS | Verify minimum sum assured of 25 lakhs is enforced
+- TC_LIF_006 | PASS | Verify premium calculation for non-smoker male profile
+- TC_LIF_007 | PASS | Verify smoker premium loading is applied at issuance
+- TC_LIF_008 | PASS | Verify premium calculation for female lives is lower
+- TC_LIF_009 | PASS | Verify NRI applicant premium calculation with medical flag
+- TC_LIF_010 | PASS | Verify online channel premium calculation succeeds
+- TC_LIF_011 | PASS | Verify death claim lodgement captures policy number
+- TC_LIF_012 | PASS | Verify claim type selection for natural death
+- TC_LIF_013 | PASS | Verify claim intimation date is recorded
+- TC_LIF_014 | PASS | Verify claim settlement within 30 days for policy over 3 years
+- TC_LIF_015 | PASS | Verify investigation period of 90 days for early claims
+- TC_LIF_016 | FAIL | Verify claim acknowledgement within 3 working days of intimation
+- TC_LIF_017 | PASS | Verify suicide within 12 months refunds 80 percent of premiums
+- TC_LIF_018 | PASS | Verify critical illness rider claim acceleration of 25 percent
+- TC_LIF_019 | PASS | Verify accidental death benefit claim processing
+- TC_LIF_020 | PASS | Verify claim rejection for invalid policy number
+- TC_EC_001 | NOTRUN | Life Term Insurance entry age 17 years should be rejected
+- TC_EC_002 | NOTRUN | Life Term Insurance entry age 18 years should be accepted
+- TC_EC_003 | NOTRUN | Life Term Insurance entry age 66 years should be rejected
+- TC_EC_004 | NOTRUN | Life Term Insurance entry age 65 years should be accepted
+- TC_EC_005 | NOTRUN | Life Term Insurance policy term 4 years should be rejected
+- TC_EC_006 | NOTRUN | Life Term Insurance policy term 5 years should be accepted
+- TC_EC_007 | NOTRUN | Life Term Insurance policy term 41 years should be rejected
+- TC_EC_008 | NOTRUN | Life Term Insurance policy term 40 years should be accepted
+- TC_EC_009 | NOTRUN | Life Term Insurance sum assured INR 24,99,999 should be rejected
+- TC_EC_010 | NOTRUN | Life Term Insurance sum assured INR 25,00,000 should be accepted
+- TC_EC_011 | NOTRUN | Life Term Insurance high sum assured should be permitted subject to underwriting
+- TC_EC_012 | NOTRUN | Life Term Insurance extreme sum assured should not be blocked by a maximum cap
+- TC_EC_013 | NOTRUN | Non-smoker discount retained in Offline channel pricing
+- TC_EC_014 | NOTRUN | Smoker status amendment before issuance triggers loading
+- TC_EC_015 | NOTRUN | Online channel premium calculation works for eligible profile
+- TC_EC_016 | NOTRUN | Offline channel premium calculation works for eligible profile
+- TC_EC_017 | NOTRUN | Death claim lodgement captures mandatory claim type and policy number
+- TC_EC_018 | NOTRUN | Death claim with missing policy number is rejected at lodgement
+- TC_EC_019 | NOTRUN | Record claim intimation date for same-day intimation
+- TC_EC_020 | NOTRUN | Record claim intimation date for delayed intimation
+- TC_EC_021 | NOTRUN | Lump sum settlement within 30 days for policy older than 3 years
+- TC_EC_022 | NOTRUN | Compute 30-day settlement from last document receipt
+- TC_EC_023 | NOTRUN | 90-day investigation closure for early policy-year claim
+- TC_EC_024 | NOTRUN | Flag overdue investigation beyond 90 days
+- TC_EC_025 | NOTRUN | Acknowledge claim within 3 working days from Friday intimation
+- TC_EC_026 | NOTRUN | Exclude public holiday while computing acknowledgement due date
+- TC_EC_027 | NOTRUN | Apply 80 percent premium refund for suicide within 12 months from inception
+- TC_EC_028 | NOTRUN | Apply 80 percent premium refund for suicide within 12 months from revival
+- TC_EC_029 | NOTRUN | Accelerate 25 percent Sum Assured for listed critical illness
+- TC_EC_030 | NOTRUN | Do not accelerate benefit for non-listed illness
+- TC_EC_031 | NOTRUN | AC_019 - Rider amount at exact INR 1 Crore cap
+- TC_EC_032 | NOTRUN | AC_019 - Rider amount above INR 1 Crore cap
+- TC_EC_033 | NOTRUN | AC_020 - Invalid policy number format
+- TC_EC_034 | NOTRUN | AC_020 - Non-existent policy number
+- TC_EC_035 | NOTRUN | Female mortality table produces lower premium than male for identical profile
+- TC_EC_036 | NOTRUN | Female mortality table remains applicable with smoker loading in Offline channel
+- TC_EC_037 | NOTRUN | NRI purchase allowed with mandatory medical examination flag
+- TC_EC_038 | NOTRUN | Mandatory medical examination flag for NRI in Offline channel
+
+## Project structure
+
+Typical layout:
+
+- `features/` — Cucumber feature files
+- `features/steps/` — step definitions
+- `features/support/` — hooks and world setup
+- `playwright.config.ts` — Playwright configuration
+- `cucumber.js` or `cucumber.cjs` — Cucumber configuration
+- `package.json` — npm scripts and dependencies
+- `allure-results/` — Allure output
+- `.github/workflows/` — GitHub Actions pipeline
+- `Jenkinsfile` — Jenkins pipeline
+
+## Requirements
+
+- Node.js 18+ recommended
+- npm 9+
+- Chromium browser installed via Playwright
+- Local app running at `http://localhost:5176`
+
+## Installation
+
+1. Install dependencies:
+   - `npm install`
+
+2. Install Playwright browsers:
+   - `npx playwright install`
+
+## Running the tests
 
-Given('I need to verify policy term minimum 5 years is accepted', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+### Run the full Cucumber suite
 
-Then('policy term 5 years should be accepted', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `npm run test`
 
-Given('I need to verify policy term maximum 40 years is accepted', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+### Run a specific feature file
 
-Then('policy term 40 years should be accepted', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `npm run test -- features/your-feature.feature`
 
-Given('I need to verify minimum sum assured of 25 lakhs is enforced', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+### Run with tags
 
-Then('minimum sum assured should be enforced', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `npm run test -- --tags "@smoke"`
 
-Given('I need to verify premium calculation for non-smoker male profile', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+### Generate Allure report
 
-Then('non-smoker male premium should be calculated', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `npm run allure:generate`
 
-Given('I need to verify smoker premium loading is applied at issuance', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+### Open Allure report
 
-Then('smoker premium loading should be applied', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `npm run allure:open`
 
-Given('I need to verify premium calculation for female lives is lower', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+## Login credentials
 
-Then('female life premium should be lower', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+Use the following credentials in all login scenarios:
 
-Given('I need to verify NRI applicant premium calculation with medical flag', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+- Username: `admin`
+- Password: `admin123`
 
-Then('NRI premium with medical flag should be calculated', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+## Important execution rules
 
-Given('I need to verify online channel premium calculation succeeds', async function () {
-  await this.page!.locator('[data-testid="nav-tab-0"]').click();
-});
+- Switch screens only by clicking the provided tab/card locators.
+- Do not use URL route navigation for portal screens.
+- Assert against the specific observable UI output rendered by the app.
+- For NOTRUN scenarios, skip the scenario in code rather than asserting.
+- Use the exact selectors provided by the application contract.
+- When checking that something is absent or empty, use locator counts rather than text reads from missing elements.
+- Keep hooks and step definitions compatible with Cucumber World sharing through `this.page`.
 
-Then('online channel premium calculation should succeed', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+## Locators
 
-Given('I need to verify death claim lodgement captures policy number', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+Use only the following selectors for the InsureCo Portal:
 
-Then('death claim lodgement should capture policy number', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `[data-testid="login-username"]`
+- `[data-testid="login-password"]`
+- `[data-testid="login-btn"]`
+- `[data-testid="main-nav"]`
+- `[data-testid="nav-tab-0"]`
+- `[data-testid="nav-tab-1"]`
+- `[data-testid="nav-tab-2"]`
+- `[data-testid="nav-tab-3"]`
+- `[data-testid="nav-tab-4"]`
+- `[data-testid="logout-btn"]`
+- `[data-testid="dashboard-page"]`
+- `[data-testid="product-card-1"]`
+- `[data-testid="product-card-2"]`
+- `[data-testid="product-card-3"]`
+- `[data-testid="product-card-4"]`
 
-Given('I need to verify claim type selection for natural death', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+## CI pipelines
 
-Then('natural death claim type should be selected', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+### Jenkins
 
-Given('I need to verify claim intimation date is recorded', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+The Jenkins job is expected to run from:
 
-Then('claim intimation date should be recorded', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `http://host.docker.internal:8080/job/GoLiv - Insurance`
 
-Given('I need to verify claim settlement within 30 days for policy over 3 years', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+A typical Jenkins pipeline should:
 
-Then('claim settlement within 30 days should be shown', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- install dependencies
+- install browsers
+- run the Cucumber regression suite
+- publish Allure results if configured
+- archive test artifacts and screenshots on failure
 
-Given('I need to verify investigation period of 90 days for early claims', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+### GitHub Actions
 
-Then('investigation period of 90 days should be shown', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+A GitHub Actions workflow should typically:
 
-Given('I need to verify claim acknowledgement within 3 working days of intimation', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+- check out the repository
+- set up Node.js
+- install dependencies
+- install Playwright browsers
+- run the Cucumber tests
+- upload Allure or test artifacts if needed
 
-Then('claim acknowledgement within 3 working days should be shown', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+## Recommended npm scripts
 
-Given('I need to verify suicide within 12 months refunds 80 percent of premiums', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+A typical `package.json` should include scripts such as:
 
-Then('80 percent premium refund should be shown', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- `test`
+- `test:headless`
+- `test:headed`
+- `allure:generate`
+- `allure:open`
 
-Given('I need to verify critical illness rider claim acceleration of 25 percent', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+## Notes for contributors
 
-Then('critical illness acceleration of 25 percent should be shown', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- Keep assertions tied to actual app-rendered values.
+- Do not hardcode pass/fail logic based on scenario status.
+- Preserve selector contracts exactly as provided.
+- Ensure every hook cleans up the browser, context, and page.
+- Keep step text unique to avoid duplicate step registration conflicts.
 
-Given('I need to verify accidental death benefit claim processing', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+## Regression intent
 
-Then('accidental death benefit claim processing should be shown', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+This suite covers:
 
-Given('I need to verify claim rejection for invalid policy number', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+- term plan eligibility boundaries
+- premium calculation behavior
+- policy issuance pricing variants
+- claim lodgement and claim life-cycle rules
+- settlement and investigation timing
+- acknowledgement timing and working-day calculations
+- suicide benefit handling
+- rider acceleration logic
+- rejection behavior for invalid policy data
+- offline/online and NRI-specific pricing behavior
 
-Then('invalid policy number claim should be rejected', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+## Setup checklist
 
-Given('I need to verify death claim with malformed policy number format', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+Before running locally:
 
-Then('malformed policy number should be rejected', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
+- Start the portal application on `http://localhost:5176`
+- Install dependencies
+- Install Playwright browsers
+- Confirm the provided selectors are present
+- Confirm the login credentials are valid
+- Run the suite from the project root
 
-Given('I need to verify death claim with non-existent policy number', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
+## Expected workflow
 
-Then('non-existent policy number should be rejected', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
-
-Given('I need to verify death claim with policy number containing spaces or hidden characters', async function () {
-  await this.page!.locator('[data-testid="nav-tab-1"]').click();
-});
-
-Then('policy number with spaces or hidden characters should be rejected', async function () {
-  await expect(this.page!.locator('[data-testid="dashboard-page"]')).toBeVisible();
-});
-
-Given('I need to verify the remaining notrun scenarios', async function () {
-  this.skip();
-});
+1. Open the portal.
+2. Log in using `admin / admin123`.
+3. Navigate by clicking the appropriate tab/card.
+4. Perform the scenario actions.
+5. Assert only against the displayed result element for that feature.
+6. Skip only the scenarios marked NOTRUN.
+7. Capture Allure output and CI artifacts on every run.
