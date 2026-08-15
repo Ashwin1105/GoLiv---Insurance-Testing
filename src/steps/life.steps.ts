@@ -6,7 +6,7 @@ const EXPECTED: Record<string, { testid: string; contains?: string; present?: bo
     "testid": "claim-result-acknowledgement-tat",
     "contains": "3 working days"
   },
-  "TC_EC_014": {
+  "TC_EC_025": {
     "testid": "claim-result-acknowledgement-tat",
     "contains": "3 working days"
   }
