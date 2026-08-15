@@ -1,20 +1,25 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2020",
     "module": "CommonJS",
-    "lib": ["ES2022", "DOM"],
+    "moduleResolution": "node",
+    "lib": ["ES2020"],
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "types": ["node", "@cucumber/cucumber", "@playwright/test"]
   },
+  "ts-node": {
+    "transpileOnly": true
+  },
   "include": [
     "features/**/*.ts",
+    "features/**/*.js",
     "tests/**/*.ts",
+    "tests/**/*.js",
     "src/**/*.ts"
   ],
   "exclude": [
