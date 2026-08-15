@@ -1,21 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["ES2022", "DOM"],
     "strict": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "types": ["node"]
+    "noEmit": true,
+    "types": ["node", "@cucumber/cucumber", "@playwright/test"]
   },
   "include": [
-    "**/*.ts"
+    "features/**/*.ts",
+    "tests/**/*.ts",
+    "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
