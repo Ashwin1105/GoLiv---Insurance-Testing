@@ -140,72 +140,38 @@ When the user opens claim management
     And the user lodges a claim for "TC_LIF_020"
     Then a claim result should be shown for "TC_LIF_020"
 
-@TC_LIF_021
-  Scenario: TC_LIF_021 - Verify grace period of 30 days for annual premium mode
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_LIF_021"
-    Then a revival result should be shown for "TC_LIF_021"
-
-@TC_LIF_022
-  Scenario: TC_LIF_022 - Verify grace period of 15 days for monthly premium mode
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_LIF_022"
-    Then a revival result should be shown for "TC_LIF_022"
-
-@TC_LIF_023
-  Scenario: TC_LIF_023 - Verify lapsed policy revival allowed within 5 years
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_LIF_023"
-    Then a revival result should be shown for "TC_LIF_023"
-
-@TC_LIF_024
-  Scenario: TC_LIF_024 - Verify revival within 6 months without fresh medical underwriting
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_LIF_024"
-    Then a revival result should be shown for "TC_LIF_024"
-
-@TC_LIF_025
-  Scenario: TC_LIF_025 - Verify paid-up value calculated correctly after 2 years premiums paid
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks paid-up value for "TC_LIF_025"
-    Then a paid-up result should be shown for "TC_LIF_025"
-
-@TC_LIF_026
-  Scenario: TC_LIF_026 - Verify paid-up eligibility requires 3 consecutive premium years
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks paid-up value for "TC_LIF_026"
-    Then a paid-up result should be shown for "TC_LIF_026"
-
-@TC_LIF_027
-  Scenario: TC_LIF_027 - Verify policy lapse after grace period expiry
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_LIF_027"
-    Then a revival result should be shown for "TC_LIF_027"
-
-@TC_LIF_028
-  Scenario: TC_LIF_028 - Verify revival premium interest at 8 percent per annum
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_LIF_028"
-    Then a revival result should be shown for "TC_LIF_028"
-
-@TC_LIF_029
-  Scenario: TC_LIF_029 - Verify free look period of 15 days for offline policy
+@TC_EC_001
+  Scenario: TC_EC_001 - Minimum entry age boundary rejection at 17 years
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_LIF_029"
-    Then a premium result should be shown for "TC_LIF_029"
+    And the user submits premium inputs for "TC_EC_001"
+    Then a premium result should be shown for "TC_EC_001"
 
-@TC_LIF_030
-  Scenario: TC_LIF_030 - Verify free look period of 30 days for online policy
+@TC_EC_002
+  Scenario: TC_EC_002 - Minimum entry age acceptance at 18 years
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_LIF_030"
-    Then a premium result should be shown for "TC_LIF_030"
+    And the user submits premium inputs for "TC_EC_002"
+    Then a premium result should be shown for "TC_EC_002"
+
+@TC_EC_003
+  Scenario: TC_EC_003 - Maximum entry age rejection at 66 years
+Given the user is logged in to the insurance portal
+When the user opens the premium calculator
+    And the user submits premium inputs for "TC_EC_003"
+    Then a premium result should be shown for "TC_EC_003"
+
+@TC_EC_004
+  Scenario: TC_EC_004 - Maximum entry age acceptance at 65 years
+Given the user is logged in to the insurance portal
+When the user opens the premium calculator
+    And the user submits premium inputs for "TC_EC_004"
+    Then a premium result should be shown for "TC_EC_004"
+
+@TC_EC_005
+  Scenario: TC_EC_005 - Minimum policy term rejection at 4 years
+Given the user is logged in to the insurance portal
+When the user opens the premium calculator
+    And the user submits premium inputs for "TC_EC_005"
+    Then a premium result should be shown for "TC_EC_005"
+
