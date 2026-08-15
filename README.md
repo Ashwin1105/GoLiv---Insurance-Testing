@@ -1,1 +1,2 @@
-npm run test
+git clone <repository-url>
+   cd goliv-insurance-automation
