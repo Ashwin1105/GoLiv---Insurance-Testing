@@ -2,19 +2,16 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: [
-    ['html'],
-    ['allure-playwright']
-  ],
+  retries: 0,
+  workers: 1,
+  reporter: [['list']],
   use: {
     baseURL: 'http://localhost:5176',
     headless: false,
-    screenshot: 'on-failure',
-    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    trace: 'on-first-retry',
   },
   projects: [
     {
