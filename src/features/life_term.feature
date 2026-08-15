@@ -210,234 +210,87 @@ When the user opens the premium calculator
     And the user submits premium inputs for "TC_LIF_030"
     Then a premium result should be shown for "TC_LIF_030"
 
-@TC_EC_001
-  Scenario: TC_EC_001 - Minimum Entry Age Validation for Term Plan
+@TC_EC_STUB_AC_001
+  Scenario: TC_EC_STUB_AC_001 - [NEEDS REVIEW] The minimum entry age for the term plan shall be 18 years.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_001"
-    Then a premium result should be shown for "TC_EC_001"
+    And the user submits premium inputs for "TC_EC_STUB_AC_001"
+    Then a premium result should be shown for "TC_EC_STUB_AC_001"
 
-@TC_EC_002
-  Scenario: TC_EC_002 - Maximum Entry Age Validation for Term Plan
+@TC_EC_STUB_AC_002
+  Scenario: TC_EC_STUB_AC_002 - [NEEDS REVIEW] The maximum entry age shall be 65 years.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_002"
-    Then a premium result should be shown for "TC_EC_002"
+    And the user submits premium inputs for "TC_EC_STUB_AC_002"
+    Then a premium result should be shown for "TC_EC_STUB_AC_002"
 
-@TC_EC_003
-  Scenario: TC_EC_003 - Minimum Policy Term Validation for Term Plan
+@TC_EC_STUB_AC_003
+  Scenario: TC_EC_STUB_AC_003 - [NEEDS REVIEW] The minimum policy term shall be 5 years.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_003"
-    Then a premium result should be shown for "TC_EC_003"
+    And the user submits premium inputs for "TC_EC_STUB_AC_003"
+    Then a premium result should be shown for "TC_EC_STUB_AC_003"
 
-@TC_EC_004
-  Scenario: TC_EC_004 - Maximum Policy Term Validation for Term Plan
+@TC_EC_STUB_AC_004
+  Scenario: TC_EC_STUB_AC_004 - [NEEDS REVIEW] The maximum policy term shall be 40 years.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_004"
-    Then a premium result should be shown for "TC_EC_004"
+    And the user submits premium inputs for "TC_EC_STUB_AC_004"
+    Then a premium result should be shown for "TC_EC_STUB_AC_004"
 
-@TC_EC_005
-  Scenario: TC_EC_005 - Minimum Sum Assured Validation for Term Plan
+@TC_EC_STUB_AC_005
+  Scenario: TC_EC_STUB_AC_005 - [NEEDS REVIEW] The minimum Sum Assured shall be INR 25,00,000.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_005"
-    Then a premium result should be shown for "TC_EC_005"
+    And the user submits premium inputs for "TC_EC_STUB_AC_005"
+    Then a premium result should be shown for "TC_EC_STUB_AC_005"
 
-@TC_EC_006
-  Scenario: TC_EC_006 - Non-Smoker Premium Discount Validation for Term Plan
+@TC_EC_STUB_AC_006
+  Scenario: TC_EC_STUB_AC_006 - [NEEDS REVIEW] Non-smokers shall receive premium discounts per the approved non-smoker rating table.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_006"
-    Then a premium result should be shown for "TC_EC_006"
+    And the user submits premium inputs for "TC_EC_STUB_AC_006"
+    Then a premium result should be shown for "TC_EC_STUB_AC_006"
 
-@TC_EC_007
-  Scenario: TC_EC_007 - Smoker Loading Validation for Term Plan
+@TC_EC_STUB_AC_007
+  Scenario: TC_EC_STUB_AC_007 - [NEEDS REVIEW] Smoker status must be declared at proposal and a smoker loading applied at issuance.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_007"
-    Then a premium result should be shown for "TC_EC_007"
+    And the user submits premium inputs for "TC_EC_STUB_AC_007"
+    Then a premium result should be shown for "TC_EC_STUB_AC_007"
 
-@TC_EC_008
-  Scenario: TC_EC_008 - Female Mortality Table Validation for Term Plan
+@TC_EC_STUB_AC_008
+  Scenario: TC_EC_STUB_AC_008 - [NEEDS REVIEW] Female lives shall be rated using the female mortality table, producing a lower premium than male lives for the same profile.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_008"
-    Then a premium result should be shown for "TC_EC_008"
+    And the user submits premium inputs for "TC_EC_STUB_AC_008"
+    Then a premium result should be shown for "TC_EC_STUB_AC_008"
 
-@TC_EC_009
-  Scenario: TC_EC_009 - NRI Applicant Validation for Term Plan
+@TC_EC_STUB_AC_009
+  Scenario: TC_EC_STUB_AC_009 - [NEEDS REVIEW] NRI applicants may purchase a term plan; a mandatory medical examination flag shall be raised during premium calculation.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_009"
-    Then a premium result should be shown for "TC_EC_009"
+    And the user submits premium inputs for "TC_EC_STUB_AC_009"
+    Then a premium result should be shown for "TC_EC_STUB_AC_009"
 
-@TC_EC_010
-  Scenario: TC_EC_010 - Mandatory Medical Examination Flag Validation for NRI Applicants
+@TC_EC_STUB_AC_010
+  Scenario: TC_EC_STUB_AC_010 - [NEEDS REVIEW] The premium calculator shall support Online and Offline purchase channels and return a valid premium for each.
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_010"
-    Then a premium result should be shown for "TC_EC_010"
+    And the user submits premium inputs for "TC_EC_STUB_AC_010"
+    Then a premium result should be shown for "TC_EC_STUB_AC_010"
 
-@TC_EC_011
-  Scenario: TC_EC_011 - Online Purchase Channel Validation for Term Plan
-Given the user is logged in to the insurance portal
-When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_011"
-    Then a premium result should be shown for "TC_EC_011"
-
-@TC_EC_012
-  Scenario: TC_EC_012 - Offline Purchase Channel Validation for Term Plan
-Given the user is logged in to the insurance portal
-When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_012"
-    Then a premium result should be shown for "TC_EC_012"
-
-@TC_EC_013
-  Scenario: TC_EC_013 - Claim Type and Policy Number Validation for Death Claim
+@TC_EC_STUB_AC_011
+  Scenario: TC_EC_STUB_AC_011 - [NEEDS REVIEW] A death claim shall capture policy number at lodgement.
 Given the user is logged in to the insurance portal
 When the user opens claim management
-    And the user lodges a claim for "TC_EC_013"
-    Then a claim result should be shown for "TC_EC_013"
+    And the user lodges a claim for "TC_EC_STUB_AC_011"
+    Then a claim result should be shown for "TC_EC_STUB_AC_011"
 
-@TC_EC_014
-  Scenario: TC_EC_014 - Claim Intimation Date Validation for Death Claim
+@TC_EC_STUB_AC_012
+  Scenario: TC_EC_STUB_AC_012 - [NEEDS REVIEW] A death claim shall capture claim type at lodgement.
 Given the user is logged in to the insurance portal
 When the user opens claim management
-    And the user lodges a claim for "TC_EC_014"
-    Then a claim result should be shown for "TC_EC_014"
-
-@TC_EC_015
-  Scenario: TC_EC_015 - Death Benefit Payment Validation for Policies More Than 3 Years Old
-Given the user is logged in to the insurance portal
-When the user opens claim management
-    And the user lodges a claim for "TC_EC_015"
-    Then a claim result should be shown for "TC_EC_015"
-
-@TC_EC_016
-  Scenario: TC_EC_016 - Investigation Completion Validation for Claims Within the First 3 Policy Years
-Given the user is logged in to the insurance portal
-When the user opens claim management
-    And the user lodges a claim for "TC_EC_016"
-    Then a claim result should be shown for "TC_EC_016"
-
-@TC_EC_017
-  Scenario: TC_EC_017 - Claim Acknowledgement Validation Within 3 Working Days of Intimation
-Given the user is logged in to the insurance portal
-When the user opens claim management
-    And the user lodges a claim for "TC_EC_017"
-    Then a claim result should be shown for "TC_EC_017"
-
-@TC_EC_018
-  Scenario: TC_EC_018 - Suicide Exclusion Validation Within 12 Months From Inception or Revival
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_018"
-    Then a revival result should be shown for "TC_EC_018"
-
-@TC_EC_019
-  Scenario: TC_EC_019 - Critical Illness Rider Validation for Term Plan
-Given the user is logged in to the insurance portal
-When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_019"
-    Then a premium result should be shown for "TC_EC_019"
-
-@TC_EC_020
-  Scenario: TC_EC_020 - Accidental Death Benefit Rider Validation for Term Plan
-Given the user is logged in to the insurance portal
-When the user opens claim management
-    And the user lodges a claim for "TC_EC_020"
-    Then a claim result should be shown for "TC_EC_020"
-
-@TC_EC_021
-  Scenario: TC_EC_021 - Invalid Policy Number Validation for Claim Submission
-Given the user is logged in to the insurance portal
-When the user opens claim management
-    And the user lodges a claim for "TC_EC_021"
-    Then a claim result should be shown for "TC_EC_021"
-
-@TC_EC_022
-  Scenario: TC_EC_022 - Grace Period Validation for Annual Mode
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_022"
-    Then a revival result should be shown for "TC_EC_022"
-
-@TC_EC_023
-  Scenario: TC_EC_023 - Grace Period Validation for Semi-Annual Mode
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_023"
-    Then a revival result should be shown for "TC_EC_023"
-
-@TC_EC_024
-  Scenario: TC_EC_024 - Grace Period Validation for Quarterly Mode
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_024"
-    Then a revival result should be shown for "TC_EC_024"
-
-@TC_EC_025
-  Scenario: TC_EC_025 - Grace Period Validation for Monthly Mode
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_025"
-    Then a revival result should be shown for "TC_EC_025"
-
-@TC_EC_026
-  Scenario: TC_EC_026 - Revival of Lapsed Policy Validation Within 5 Years From the Date of First Unpaid Premium
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_026"
-    Then a revival result should be shown for "TC_EC_026"
-
-@TC_EC_027
-  Scenario: TC_EC_027 - Revival Within 6 Months of Lapse Validation Without Requiring Fresh Medical Underwriting for Sum Assured Up to INR 50 Lakhs
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_027"
-    Then a revival result should be shown for "TC_EC_027"
-
-@TC_EC_028
-  Scenario: TC_EC_028 - Payment of All Due Premiums with Interest Validation for Revival of Lapsed Policy
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_028"
-    Then a revival result should be shown for "TC_EC_028"
-
-@TC_EC_029
-  Scenario: TC_EC_029 - Paid-Up Value Validation for Lapsed Policy With Premiums Paid for At Least 3 Consecutive Years for Regular Pay
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks paid-up value for "TC_EC_029"
-    Then a paid-up result should be shown for "TC_EC_029"
-
-@TC_EC_030
-  Scenario: TC_EC_030 - Paid-Up Sum Assured Validation for Lapsed Policy With Premiums Paid for At Least 3 Consecutive Years for Regular Pay
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks paid-up value for "TC_EC_030"
-    Then a paid-up result should be shown for "TC_EC_030"
-
-@TC_EC_031
-  Scenario: TC_EC_031 - Free Look Period Validation for 15 Days From Receipt of the Policy Document
-Given the user is logged in to the insurance portal
-When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_031"
-    Then a premium result should be shown for "TC_EC_031"
-
-@TC_EC_032
-  Scenario: TC_EC_032 - Free Look Period Validation for 30 Days for Distance-Marketing (Online) Channels
-Given the user is logged in to the insurance portal
-When the user opens the premium calculator
-    And the user submits premium inputs for "TC_EC_032"
-    Then a premium result should be shown for "TC_EC_032"
-
-@TC_EC_001
-  Scenario: TC_EC_001 - Policy Lapse Due to Non-Payment Within Grace Period
-Given the user is logged in to the insurance portal
-When the user opens lapse and revival
-    And the user checks revival for "TC_EC_001"
-    Then a revival result should be shown for "TC_EC_001"
+    And the user lodges a claim for "TC_EC_STUB_AC_012"
+    Then a claim result should be shown for "TC_EC_STUB_AC_012"
 
