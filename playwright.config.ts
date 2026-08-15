@@ -1,49 +1,25 @@
-import { PlaywrightTestConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
+export default defineConfig({
   testDir: './tests',
-  timeout: 30 * 1000,
-  expect: {
-    timeout: 15 * 1000,
-  },
-  workers: 1,
-  reporter: 'list',
-  globalTimeout: 60 * 1000,
+  fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  preserveOutput: 'failures-only',
-  outputDir: 'test-results',
-  retries: 0,
-  headless: false,
-  screenshot: 'on',
-  video: 'off',
-  trace: 'on',
-  metadata: {
-    version: '1.0.0',
-  },
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: [
+    ['html'],
+    ['allure-playwright']
+  ],
   use: {
-    baseURL: 'http://host.docker.internal:5176',
+    baseURL: 'http://localhost:5176',
     headless: false,
     screenshot: 'on-failure',
-    trace: 'on',
+    trace: 'retain-on-failure',
   },
   projects: [
     {
-      name: 'insureco-portal',
-      testMatch: ['tests/*.feature'],
-      use: {
-        browserName: 'chromium',
-        browserVersion: 'latest',
-        capabilities: [
-          {
-            browserName: 'chrome',
-            chromeOptions: {
-              args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            },
-          },
-        ],
-      },
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
-};
-
-export default config;
+});
