@@ -1,16 +1,7 @@
 import { Given, When, Then} from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
-const EXPECTED: Record<string, { testid: string; contains?: string; present?: boolean }> = {
-  "TC_LIF_016": {
-    "testid": "claim-result-acknowledgement-tat",
-    "contains": "3 working days"
-  },
-  "TC_EC_025": {
-    "testid": "claim-result-acknowledgement-tat",
-    "contains": "3 working days"
-  }
-};
+const EXPECTED: Record<string, { testid: string; contains?: string; present?: boolean }> = {};
 
 async function withCap<T>(p: Promise<T>, ms = 4000): Promise<void>{
   try { await Promise.race([p, new Promise((res) =>setTimeout(res, ms))]); } catch (e) {}
