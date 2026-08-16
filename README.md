@@ -1,239 +1,95 @@
-# InsureCo Portal Automation README
+# InsureCo Portal Automation Project
+This project aims to automate the testing of the InsureCo Portal using Playwright, TypeScript, Cucumber BDD, Allure, and Jenkinsfile for CI/CD pipeline integration.
 
-## Overview
+## Prerequisites
+- Node.js (latest version)
+- npm (latest version)
+- Playwright (latest version)
+- TypeScript (latest version)
+- Cucumber (latest version)
+- Allure (latest version)
+- Jenkinsfile (for CI/CD pipeline integration)
+- GitHub Actions (for automated testing and reporting)
 
-This repository contains end-to-end automation for the InsureCo Portal using Playwright, TypeScript, Cucumber BDD, Allure reporting, Jenkins, and GitHub Actions.
+## Setup
+1. Clone the repository using `git clone`.
+2. Install the required dependencies using `npm install`.
+3. Configure the Allure report generator.
+4. Set up the Jenkinsfile for CI/CD pipeline integration.
+5. Configure GitHub Actions for automated testing and reporting.
 
-The application under test is a single-page tabbed portal at `http://localhost:5176`. Navigation must be performed by clicking the provided tab/card controls; there are no URL routes for switching screens.
+## Run the Tests
+1. Run the tests using `npx cucumber-js`.
+2. View the test report using `npx allure serve`.
 
-## Test scope
+## Test Cases
+The following test cases are included in this project:
 
-The regression suite includes the following 58 scenarios:
+### Term Plan Test Cases
+1. **TC_LIF_001**: Verify term plan entry age minimum 18 years accepted
+2. **TC_LIF_002**: Verify term plan entry age maximum 65 years accepted
+3. **TC_LIF_003**: Verify policy term minimum 5 years is accepted
+4. **TC_LIF_004**: Verify policy term maximum 40 years is accepted
+5. **TC_LIF_005**: Verify minimum sum assured of 25 lakhs is enforced
+6. **TC_LIF_006**: Verify premium calculation for non-smoker male profile
+7. **TC_LIF_007**: Verify smoker premium loading is applied at issuance
+8. **TC_LIF_008**: Verify premium calculation for female lives is lower
+9. **TC_LIF_009**: Verify NRI applicant premium calculation with medical flag
+10. **TC_LIF_010**: Verify online channel premium calculation succeeds
 
-- TC_LIF_001 | PASS | Verify term plan entry age minimum 18 years accepted
-- TC_LIF_002 | PASS | Verify term plan entry age maximum 65 years accepted
-- TC_LIF_003 | PASS | Verify policy term minimum 5 years is accepted
-- TC_LIF_004 | PASS | Verify policy term maximum 40 years is accepted
-- TC_LIF_005 | PASS | Verify minimum sum assured of 25 lakhs is enforced
-- TC_LIF_006 | PASS | Verify premium calculation for non-smoker male profile
-- TC_LIF_007 | PASS | Verify smoker premium loading is applied at issuance
-- TC_LIF_008 | PASS | Verify premium calculation for female lives is lower
-- TC_LIF_009 | PASS | Verify NRI applicant premium calculation with medical flag
-- TC_LIF_010 | PASS | Verify online channel premium calculation succeeds
-- TC_LIF_011 | PASS | Verify death claim lodgement captures policy number
-- TC_LIF_012 | PASS | Verify claim type selection for natural death
-- TC_LIF_013 | PASS | Verify claim intimation date is recorded
-- TC_LIF_014 | PASS | Verify claim settlement within 30 days for policy over 3 years
-- TC_LIF_015 | PASS | Verify investigation period of 90 days for early claims
-- TC_LIF_016 | FAIL | Verify claim acknowledgement within 3 working days of intimation
-- TC_LIF_017 | PASS | Verify suicide within 12 months refunds 80 percent of premiums
-- TC_LIF_018 | PASS | Verify critical illness rider claim acceleration of 25 percent
-- TC_LIF_019 | PASS | Verify accidental death benefit claim processing
-- TC_LIF_020 | PASS | Verify claim rejection for invalid policy number
-- TC_EC_001 | NOTRUN | Life Term Insurance entry age 17 years should be rejected
-- TC_EC_002 | NOTRUN | Life Term Insurance entry age 18 years should be accepted
-- TC_EC_003 | NOTRUN | Life Term Insurance entry age 66 years should be rejected
-- TC_EC_004 | NOTRUN | Life Term Insurance entry age 65 years should be accepted
-- TC_EC_005 | NOTRUN | Life Term Insurance policy term 4 years should be rejected
-- TC_EC_006 | NOTRUN | Life Term Insurance policy term 5 years should be accepted
-- TC_EC_007 | NOTRUN | Life Term Insurance policy term 41 years should be rejected
-- TC_EC_008 | NOTRUN | Life Term Insurance policy term 40 years should be accepted
-- TC_EC_009 | NOTRUN | Life Term Insurance sum assured INR 24,99,999 should be rejected
-- TC_EC_010 | NOTRUN | Life Term Insurance sum assured INR 25,00,000 should be accepted
-- TC_EC_011 | NOTRUN | Life Term Insurance high sum assured should be permitted subject to underwriting
-- TC_EC_012 | NOTRUN | Life Term Insurance extreme sum assured should not be blocked by a maximum cap
-- TC_EC_013 | NOTRUN | Non-smoker discount retained in Offline channel pricing
-- TC_EC_014 | NOTRUN | Smoker status amendment before issuance triggers loading
-- TC_EC_015 | NOTRUN | Online channel premium calculation works for eligible profile
-- TC_EC_016 | NOTRUN | Offline channel premium calculation works for eligible profile
-- TC_EC_017 | NOTRUN | Death claim lodgement captures mandatory claim type and policy number
-- TC_EC_018 | NOTRUN | Death claim with missing policy number is rejected at lodgement
-- TC_EC_019 | NOTRUN | Record claim intimation date for same-day intimation
-- TC_EC_020 | NOTRUN | Record claim intimation date for delayed intimation
-- TC_EC_021 | NOTRUN | Lump sum settlement within 30 days for policy older than 3 years
-- TC_EC_022 | NOTRUN | Compute 30-day settlement from last document receipt
-- TC_EC_023 | NOTRUN | 90-day investigation closure for early policy-year claim
-- TC_EC_024 | NOTRUN | Flag overdue investigation beyond 90 days
-- TC_EC_025 | NOTRUN | Acknowledge claim within 3 working days from Friday intimation
-- TC_EC_026 | NOTRUN | Exclude public holiday while computing acknowledgement due date
-- TC_EC_027 | NOTRUN | Apply 80 percent premium refund for suicide within 12 months from inception
-- TC_EC_028 | NOTRUN | Apply 80 percent premium refund for suicide within 12 months from revival
-- TC_EC_029 | NOTRUN | Accelerate 25 percent Sum Assured for listed critical illness
-- TC_EC_030 | NOTRUN | Do not accelerate benefit for non-listed illness
-- TC_EC_031 | NOTRUN | AC_019 - Rider amount at exact INR 1 Crore cap
-- TC_EC_032 | NOTRUN | AC_019 - Rider amount above INR 1 Crore cap
-- TC_EC_033 | NOTRUN | AC_020 - Invalid policy number format
-- TC_EC_034 | NOTRUN | AC_020 - Non-existent policy number
-- TC_EC_035 | NOTRUN | Female mortality table produces lower premium than male for identical profile
-- TC_EC_036 | NOTRUN | Female mortality table remains applicable with smoker loading in Offline channel
-- TC_EC_037 | NOTRUN | NRI purchase allowed with mandatory medical examination flag
-- TC_EC_038 | NOTRUN | Mandatory medical examination flag for NRI in Offline channel
+### Edge Cases Test Cases
+1. **TC_EC_001**: Minimum Entry Age Validation for Term Plan (NOTRUN)
+2. **TC_EC_002**: Maximum Entry Age Validation for Term Plan (NOTRUN)
+3. **TC_EC_003**: Minimum Policy Term Validation for Term Plan (NOTRUN)
+4. **TC_EC_004**: Maximum Policy Term Validation for Term Plan (NOTRUN)
+5. **TC_EC_005**: Minimum Sum Assured Validation for Term Plan (NOTRUN)
+6. **TC_EC_006**: Non-Smoker Premium Discount Validation for Term Plan (NOTRUN)
+7. **TC_EC_007**: Smoker Loading Validation for Term Plan (NOTRUN)
+8. **TC_EC_008**: Validating Smoker Status Declaration at Proposal (NOTRUN)
+9. **TC_EC_009**: Validating Female Mortality Table Application (NOTRUN)
+10. **TC_EC_010**: Validating NRI Applicant Mandatory Medical Examination (NOTRUN)
+11. **TC_EC_011**: Validating Online Purchase Channel Premium Calculation (NOTRUN)
+12. **TC_EC_012**: Validating Offline Purchase Channel Premium Calculation (NOTRUN)
+13. **TC_EC_013**: Validating Minimum Entry Age (NOTRUN)
+14. **TC_EC_014**: Validating Maximum Entry Age (NOTRUN)
+15. **TC_EC_015**: Validating Minimum Policy Term (NOTRUN)
+16. **TC_EC_016**: Validating Maximum Policy Term (NOTRUN)
+17. **TC_EC_017**: Validating Minimum Sum Assured (NOTRUN)
 
-## Project structure
+## Allure Report
+The Allure report can be viewed using `npx allure serve`. The report will display the test results, including pass and fail rates, and detailed information about each test case.
 
-Typical layout:
+## Jenkinsfile
+The Jenkinsfile is used to integrate the project with the CI/CD pipeline. It will run the tests and generate the Allure report.
 
-- `features/` — Cucumber feature files
-- `features/steps/` — step definitions
-- `features/support/` — hooks and world setup
-- `playwright.config.ts` — Playwright configuration
-- `cucumber.js` or `cucumber.cjs` — Cucumber configuration
-- `package.json` — npm scripts and dependencies
-- `allure-results/` — Allure output
-- `.github/workflows/` — GitHub Actions pipeline
-- `Jenkinsfile` — Jenkins pipeline
+## GitHub Actions
+The GitHub Actions workflow will run the tests and generate the Allure report on each push to the repository.
 
-## Requirements
-
-- Node.js 18+ recommended
-- npm 9+
-- Chromium browser installed via Playwright
-- Local app running at `http://localhost:5176`
-
-## Installation
-
-1. Install dependencies:
-   - `npm install`
-
-2. Install Playwright browsers:
-   - `npx playwright install`
-
-## Running the tests
-
-### Run the full Cucumber suite
-
-- `npm run test`
-
-### Run a specific feature file
-
-- `npm run test -- features/your-feature.feature`
-
-### Run with tags
-
-- `npm run test -- --tags "@smoke"`
-
-### Generate Allure report
-
-- `npm run allure:generate`
-
-### Open Allure report
-
-- `npm run allure:open`
-
-## Login credentials
-
-Use the following credentials in all login scenarios:
-
-- Username: `admin`
-- Password: `admin123`
-
-## Important execution rules
-
-- Switch screens only by clicking the provided tab/card locators.
-- Do not use URL route navigation for portal screens.
-- Assert against the specific observable UI output rendered by the app.
-- For NOTRUN scenarios, skip the scenario in code rather than asserting.
-- Use the exact selectors provided by the application contract.
-- When checking that something is absent or empty, use locator counts rather than text reads from missing elements.
-- Keep hooks and step definitions compatible with Cucumber World sharing through `this.page`.
+## Test Data
+The test data is included in the test cases. The test data includes login credentials, policy details, and premium details.
 
 ## Locators
+The locators used in the project are:
+- `data-testid="login-username"`
+- `data-testid="login-password"`
+- `data-testid="login-btn"`
+- `data-testid="main-nav"`
+- `data-testid="nav-tab-0"`
+- `data-testid="nav-tab-1"`
+- `data-testid="nav-tab-2"`
+- `data-testid="nav-tab-3"`
+- `data-testid="nav-tab-4"`
+- `data-testid="logout-btn"`
+- `data-testid="dashboard-page"`
+- `data-testid="product-card-1"`
+- `data-testid="product-card-2"`
+- `data-testid="product-card-3"`
+- `data-testid="product-card-4"`
 
-Use only the following selectors for the InsureCo Portal:
+## App URL
+The app URL is `http://localhost:5176`.
 
-- `[data-testid="login-username"]`
-- `[data-testid="login-password"]`
-- `[data-testid="login-btn"]`
-- `[data-testid="main-nav"]`
-- `[data-testid="nav-tab-0"]`
-- `[data-testid="nav-tab-1"]`
-- `[data-testid="nav-tab-2"]`
-- `[data-testid="nav-tab-3"]`
-- `[data-testid="nav-tab-4"]`
-- `[data-testid="logout-btn"]`
-- `[data-testid="dashboard-page"]`
-- `[data-testid="product-card-1"]`
-- `[data-testid="product-card-2"]`
-- `[data-testid="product-card-3"]`
-- `[data-testid="product-card-4"]`
-
-## CI pipelines
-
-### Jenkins
-
-The Jenkins job is expected to run from:
-
-- `http://host.docker.internal:8080/job/GoLiv - Insurance`
-
-A typical Jenkins pipeline should:
-
-- install dependencies
-- install browsers
-- run the Cucumber regression suite
-- publish Allure results if configured
-- archive test artifacts and screenshots on failure
-
-### GitHub Actions
-
-A GitHub Actions workflow should typically:
-
-- check out the repository
-- set up Node.js
-- install dependencies
-- install Playwright browsers
-- run the Cucumber tests
-- upload Allure or test artifacts if needed
-
-## Recommended npm scripts
-
-A typical `package.json` should include scripts such as:
-
-- `test`
-- `test:headless`
-- `test:headed`
-- `allure:generate`
-- `allure:open`
-
-## Notes for contributors
-
-- Keep assertions tied to actual app-rendered values.
-- Do not hardcode pass/fail logic based on scenario status.
-- Preserve selector contracts exactly as provided.
-- Ensure every hook cleans up the browser, context, and page.
-- Keep step text unique to avoid duplicate step registration conflicts.
-
-## Regression intent
-
-This suite covers:
-
-- term plan eligibility boundaries
-- premium calculation behavior
-- policy issuance pricing variants
-- claim lodgement and claim life-cycle rules
-- settlement and investigation timing
-- acknowledgement timing and working-day calculations
-- suicide benefit handling
-- rider acceleration logic
-- rejection behavior for invalid policy data
-- offline/online and NRI-specific pricing behavior
-
-## Setup checklist
-
-Before running locally:
-
-- Start the portal application on `http://localhost:5176`
-- Install dependencies
-- Install Playwright browsers
-- Confirm the provided selectors are present
-- Confirm the login credentials are valid
-- Run the suite from the project root
-
-## Expected workflow
-
-1. Open the portal.
-2. Log in using `admin / admin123`.
-3. Navigate by clicking the appropriate tab/card.
-4. Perform the scenario actions.
-5. Assert only against the displayed result element for that feature.
-6. Skip only the scenarios marked NOTRUN.
-7. Capture Allure output and CI artifacts on every run.
+## Login Credentials
+The login credentials are:
+- Username: `admin`
+- Password: `admin123`
