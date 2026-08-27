@@ -42,46 +42,39 @@ const INPUTS: Record<string, { sa?: string; tenure?: string; ageBand?: string; g
   "TC_EC_001": {
     "ageBand": "18-35"
   },
-  "TC_EC_002": {
-    "ageBand": "18-35"
-  },
   "TC_EC_003": {
     "ageBand": "56-65"
   },
-  "TC_EC_004": {
-    "ageBand": "56-65"
-  },
   "TC_EC_005": {
-    "tenure": "5"
-  },
-  "TC_EC_006": {
-    "tenure": "5"
+    "tenure": "5",
+    "ageBand": "18-35"
   },
   "TC_EC_007": {
-    "tenure": "40"
-  },
-  "TC_EC_008": {
-    "tenure": "40"
+    "tenure": "40",
+    "ageBand": "56-65"
   },
   "TC_EC_009": {
-    "sa": "2000000"
+    "sa": "2000000",
+    "tenure": "5",
+    "ageBand": "18-35"
   },
   "TC_EC_010": {
-    "sa": "2500000"
+    "sa": "2500000",
+    "tenure": "5",
+    "ageBand": "18-35"
   },
   "TC_EC_011": {
-    "sa": "10000000"
+    "sa": "10000000",
+    "tenure": "40",
+    "ageBand": "56-65"
   },
-  "TC_EC_012": {
-    "sa": "10000000"
-  },
-  "TC_EC_017": {
+  "TC_EC_014": {
     "smoker": "yes"
   },
-  "TC_EC_019": {
+  "TC_EC_016": {
     "gender": "female"
   },
-  "TC_EC_020": {
+  "TC_EC_017": {
     "gender": "female"
   }
 };
