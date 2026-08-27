@@ -127,86 +127,100 @@ When the user opens the premium calculator
     Then a premium result should be shown for "TC_EC_008"
 
 @TC_EC_009
-  Scenario: TC_EC_009 - Life Term Insurance Sum Assured below INR 25,00,000 is rejected
+  Scenario: TC_EC_009 - Life Term Insurance sum assured below INR 25,00,000 is rejected
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_009"
     Then a premium result should be shown for "TC_EC_009"
 
 @TC_EC_010
-  Scenario: TC_EC_010 - Life Term Insurance Sum Assured at INR 25,00,000 is accepted
+  Scenario: TC_EC_010 - Life Term Insurance sum assured at INR 25,00,000 is accepted
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_010"
     Then a premium result should be shown for "TC_EC_010"
 
 @TC_EC_011
-  Scenario: TC_EC_011 - Life Term Insurance high Sum Assured passes subject to underwriting
+  Scenario: TC_EC_011 - Life Term Insurance high sum assured is allowed subject to underwriting
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_011"
     Then a premium result should be shown for "TC_EC_011"
 
 @TC_EC_012
-  Scenario: TC_EC_012 - NRI high Sum Assured proposal is allowed subject to underwriting with mandatory medical examination flag
+  Scenario: TC_EC_012 - Verify non-smoker discount at minimum eligibility boundary
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_012"
     Then a premium result should be shown for "TC_EC_012"
 
 @TC_EC_013
-  Scenario: TC_EC_013 - Verify NRI premium calculation sets medical exam flag
+  Scenario: TC_EC_013 - Verify no non-smoker discount when smoking status is not declared
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_013"
     Then a premium result should be shown for "TC_EC_013"
 
 @TC_EC_014
-  Scenario: TC_EC_014 - Verify valid premium for Offline purchase channel
+  Scenario: TC_EC_014 - Verify smoker loading is applied at issuance after proposal declaration
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_014"
     Then a premium result should be shown for "TC_EC_014"
 
 @TC_EC_015
-  Scenario: TC_EC_015 - Non-smoker discount applied for age 18 term plan
+  Scenario: TC_EC_015 - Verify smoker loading is not applied to a non-smoker proposal
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_015"
     Then a premium result should be shown for "TC_EC_015"
 
 @TC_EC_016
-  Scenario: TC_EC_016 - Non-smoker discount applied for age 65 and tenure 40 years
+  Scenario: TC_EC_016 - Verify female mortality table produces lower premium than male for same profile
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_016"
     Then a premium result should be shown for "TC_EC_016"
 
 @TC_EC_017
-  Scenario: TC_EC_017 - Smoker loading applied at issuance for declared smoker
+  Scenario: TC_EC_017 - Verify female life is not priced using male mortality table
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_017"
     Then a premium result should be shown for "TC_EC_017"
 
 @TC_EC_018
-  Scenario: TC_EC_018 - Missing smoker declaration at proposal
+  Scenario: TC_EC_018 - Verify NRI applicant triggers mandatory medical examination flag
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_018"
     Then a premium result should be shown for "TC_EC_018"
 
 @TC_EC_019
-  Scenario: TC_EC_019 - Female mortality table used for age 18 comparison
+  Scenario: TC_EC_019 - Verify medical exam flag is raised for NRI with incomplete passport validation
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_019"
     Then a premium result should be shown for "TC_EC_019"
 
 @TC_EC_020
-  Scenario: TC_EC_020 - Female mortality table used for age 65 comparison
+  Scenario: TC_EC_020 - Verify valid premium calculation for Online channel
 Given the user is logged in to the insurance portal
 When the user opens the premium calculator
     And the user submits premium inputs for "TC_EC_020"
     Then a premium result should be shown for "TC_EC_020"
+
+@TC_EC_021
+  Scenario: TC_EC_021 - Verify valid premium calculation for Offline channel
+Given the user is logged in to the insurance portal
+When the user opens the premium calculator
+    And the user submits premium inputs for "TC_EC_021"
+    Then a premium result should be shown for "TC_EC_021"
+
+@TC_EC_022
+  Scenario: TC_EC_022 - Verify unsupported purchase channel is rejected
+Given the user is logged in to the insurance portal
+When the user opens the premium calculator
+    And the user submits premium inputs for "TC_EC_022"
+    Then a premium result should be shown for "TC_EC_022"
 
