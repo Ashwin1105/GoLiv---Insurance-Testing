@@ -1,1 +1,1 @@
-npm install
+http://localhost:5176
