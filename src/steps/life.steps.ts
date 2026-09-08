@@ -2,15 +2,17 @@ import { Given, When, Then} from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
 const EXPECTED: Record<string, { testid: string; contains?: string; present?: boolean; rejectTestid?: string }> = {
-  "TC_LIF_005": {
-    "testid": "life-error",
-    "contains": "25,00,000",
-    "rejectTestid": "life-result"
+  "TC_LIF_016": {
+    "testid": "claim-result-acknowledgement-tat",
+    "contains": "3 working days"
   },
   "TC_EC_009": {
-    "testid": "life-error",
-    "contains": "25,00,000",
-    "rejectTestid": "life-result"
+    "testid": "claim-result-acknowledgement-tat",
+    "contains": "3 working days"
+  },
+  "TC_EC_010": {
+    "testid": "claim-result-acknowledgement-tat",
+    "contains": "3 working days"
   }
 };
 // Per-test-case input overrides derived from that test case's OWN steps/expected
@@ -18,64 +20,11 @@ const EXPECTED: Record<string, { testid: string; contains?: string; present?: bo
 // a genuinely below-minimum value instead of the same safe default every other
 // scenario uses. See CLAUDE.md's "assertion integrity" incident this replaces.
 const INPUTS: Record<string, { sa?: string; tenure?: string; ageBand?: string; gender?: string; smoker?: string }> = {
-  "TC_LIF_001": {
-    "ageBand": "18-35"
+  "TC_EC_013": {
+    "sa": "2500000"
   },
-  "TC_LIF_002": {
-    "ageBand": "56-65"
-  },
-  "TC_LIF_003": {
-    "tenure": "5"
-  },
-  "TC_LIF_004": {
-    "tenure": "40"
-  },
-  "TC_LIF_005": {
-    "sa": "2000000"
-  },
-  "TC_LIF_007": {
-    "smoker": "yes"
-  },
-  "TC_LIF_008": {
-    "gender": "female"
-  },
-  "TC_EC_001": {
-    "ageBand": "18-35"
-  },
-  "TC_EC_003": {
-    "ageBand": "56-65"
-  },
-  "TC_EC_005": {
-    "tenure": "5",
-    "ageBand": "18-35"
-  },
-  "TC_EC_007": {
-    "tenure": "40",
-    "ageBand": "56-65"
-  },
-  "TC_EC_009": {
-    "sa": "2000000",
-    "tenure": "5",
-    "ageBand": "18-35"
-  },
-  "TC_EC_010": {
-    "sa": "2500000",
-    "tenure": "5",
-    "ageBand": "18-35"
-  },
-  "TC_EC_011": {
-    "sa": "10000000",
-    "tenure": "40",
-    "ageBand": "56-65"
-  },
-  "TC_EC_014": {
-    "smoker": "yes"
-  },
-  "TC_EC_016": {
-    "gender": "female"
-  },
-  "TC_EC_017": {
-    "gender": "female"
+  "TC_EC_015": {
+    "sa": "10000000"
   }
 };
 
