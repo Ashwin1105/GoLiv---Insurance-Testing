@@ -1,17 +1,25 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "lib": ["ES2020", "DOM"],
-    "strict": true,
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "dist",
     "rootDir": ".",
-    "types": ["node", "@cucumber/cucumber"]
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "node",
+      "playwright",
+      "cucumber"
+    ]
   },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
