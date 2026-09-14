@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "lib": ["ESNext", "DOM"],
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "types": ["node", "@cucumber/cucumber", "@playwright/test"],
+    "outDir": "dist",
+    "rootDir": ".",
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "features/**/*.ts",
+    "step-definitions/**/*.ts",
+    "support/**/*.ts",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
