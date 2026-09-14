@@ -1,6 +1,9 @@
 # Clone the repository
-git clone <repository-url>
-cd <repository-directory>
+git clone <repository‑url>
+cd <repo‑folder>
 
-# Install dependencies
+# Install node modules
 npm ci
+
+# Install Playwright browsers
+npx playwright install
