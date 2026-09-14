@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test';
+import { Page } from '@playwright/test';
 
 export class InsureCoPortalPage {
   readonly page: Page;
@@ -15,7 +15,7 @@ export class InsureCoPortalPage {
     return this.page.locator('[data-testid="login-password"]');
   }
 
-  loginButton() {
+  loginBtn() {
     return this.page.locator('[data-testid="login-btn"]');
   }
 
@@ -43,7 +43,7 @@ export class InsureCoPortalPage {
     return this.page.locator('[data-testid="nav-tab-4"]');
   }
 
-  logoutButton() {
+  logoutBtn() {
     return this.page.locator('[data-testid="logout-btn"]');
   }
 
