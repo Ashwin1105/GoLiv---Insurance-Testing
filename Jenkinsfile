@@ -45,38 +45,38 @@ pipeline {
             // Jenkins > Tools > Maven installations, name it exactly
             // "Maven") — only required for this branch, not the others.
             def mvnHome = tool name: 'Maven', type: 'maven'
-            withEnv(["PATH+MAVEN=${mvnHome}\\bin"]) {
+            withEnv(["PATH+MAVEN=${mvnHome}/bin"]) {
               if (filter) {
                 def tags = filter.tokenize('|').collect { '@' + it.trim() }.join(' or ')
-                bat "mvn clean test \"-Dcucumber.filter.tags=${tags}\" \"-Dapp.url=${appUrl}\""
+                sh "mvn clean test \"-Dcucumber.filter.tags=${tags}\" \"-Dapp.url=${appUrl}\""
               } else {
-                bat "mvn clean test \"-Dapp.url=${appUrl}\""
+                sh "mvn clean test \"-Dapp.url=${appUrl}\""
               }
             }
           } else if (fw.contains('playwright-bdd') || (fw.contains('playwright') && fw.contains('bdd'))) {
-            bat 'npm install'
-            bat 'npx playwright install chromium'
-            bat 'npm install --no-save ts-node typescript tsconfig-paths'
+            sh 'npm install'
+            sh 'npx playwright install chromium'
+            sh 'npm install --no-save ts-node typescript tsconfig-paths'
             if (filter) {
               def tags = filter.tokenize('|').collect { '@' + it.trim() }.join(' or ')
-              bat "npx cucumber-js \"src/features/**/*.feature\" --require-module ts-node/register --require \"src/steps/**/*.ts\" --tags \"${tags}\" --format junit:test-results/results.xml"
+              sh "npx cucumber-js \"src/features/**/*.feature\" --require-module ts-node/register --require \"src/steps/**/*.ts\" --tags \"${tags}\" --format junit:test-results/results.xml"
             } else {
-              bat 'npx cucumber-js "src/features/**/*.feature" --require-module ts-node/register --require "src/steps/**/*.ts" --format junit:test-results/results.xml'
+              sh 'npx cucumber-js "src/features/**/*.feature" --require-module ts-node/register --require "src/steps/**/*.ts" --format junit:test-results/results.xml'
             }
           } else if (fw.contains('playwright')) {
-            bat 'npm install'
-            bat 'npx playwright install chromium'
+            sh 'npm install'
+            sh 'npx playwright install chromium'
             if (filter) {
-              bat "npx playwright test --grep \"${filter}\" --reporter=junit"
+              sh "npx playwright test --grep \"${filter}\" --reporter=junit"
             } else {
-              bat 'npx playwright test --reporter=junit'
+              sh 'npx playwright test --reporter=junit'
             }
           } else if (fw.contains('cypress')) {
-            bat 'npm install'
-            bat 'npx cypress run --reporter junit --reporter-options "mochaFile=cypress/results/results-[hash].xml"'
+            sh 'npm install'
+            sh 'npx cypress run --reporter junit --reporter-options "mochaFile=cypress/results/results-[hash].xml"'
           } else {
-            bat 'npm ci 2>nul || echo no npm'
-            bat 'mvn clean test 2>nul || echo no mvn'
+            sh 'npm ci 2>/dev/null || echo no npm'
+            sh 'mvn clean test 2>/dev/null || echo no mvn'
           }
         }
       }
