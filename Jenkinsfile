@@ -13,7 +13,7 @@ pipeline {
   parameters {
     string(name: 'FRAMEWORK',   defaultValue: 'playwright---typescript---cucumber-bdd---allure---jenkinsfile---github-actions', description: 'Framework: java-bdd, java-testng, playwright-bdd, playwright, cypress')
     string(name: 'TEST_FILTER', defaultValue: '', description: 'TC IDs pipe-separated e.g. TC_001|TC_002')
-    string(name: 'APP_URL',     defaultValue: 'http://host.docker.internal:5176', description: 'Application URL')
+    string(name: 'APP_URL',     defaultValue: 'http://localhost:5176', description: 'Application URL')
     string(name: 'RUN_MODE',    defaultValue: 'failed', description: 'failed = failed+notrun only | regression = full suite')
     string(name: 'TOTAL_RUN',   defaultValue: '0', description: 'Expected number of tests (informational)')
   }
@@ -38,7 +38,7 @@ pipeline {
         script {
           def fw     = (params.FRAMEWORK ?: 'playwright---typescript---cucumber-bdd---allure---jenkinsfile---github-actions').toLowerCase().trim()
           def filter = params.TEST_FILTER ? params.TEST_FILTER.trim() : ''
-          def appUrl = params.APP_URL ?: 'http://host.docker.internal:5176'
+          def appUrl = params.APP_URL ?: 'http://localhost:5176'
 
           if (fw.contains('java')) {
             // Maven installation must be configured in Jenkins (Manage
