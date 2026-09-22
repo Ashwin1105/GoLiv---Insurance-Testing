@@ -2,19 +2,21 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
-    "lib": ["ES2020"],
+    "lib": ["ES2020", "DOM"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "sourceMap": true,
-    "outDir": "dist",
-    "rootDir": "src",
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["node", "playwright", "cucumber"]
+    "isolatedModules": true,
+    "noEmit": true,
+    "types": ["node", "playwright", "@cucumber/cucumber"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "features/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
 }
