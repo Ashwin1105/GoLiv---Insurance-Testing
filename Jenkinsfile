@@ -39,6 +39,19 @@ pipeline {
           def fw     = (params.FRAMEWORK ?: 'playwright---typescript---cucumber-bdd---allure---jenkinsfile---github-actions').toLowerCase().trim()
           def filter = params.TEST_FILTER ? params.TEST_FILTER.trim() : ''
           def appUrl = params.APP_URL ?: 'http://host.docker.internal:5176'
+          // Captured, never thrown — a non-zero exit here means "some tests
+          // failed," which is a normal, EXPECTED outcome for a QA run, not
+          // a pipeline error. Real incident this fixes: with a throwing sh
+          // step, Jenkins marked the whole stage failed the moment any
+          // scenario failed, which SKIPPED the "Publish Results" stage
+          // entirely ("Stage 'Publish Results' skipped due to earlier
+          // failure(s)") — so a build with 17/18 real scenarios passing
+          // never published a JUnit report at all, and looked identical to
+          // a build where zero tests ever ran. The whole point of this
+          // pipeline is to see WHICH tests failed, so a test failure must
+          // never prevent publishing results — only build-breaking problems
+          // (checkout, install, missing tools) should still throw normally.
+          def testExitCode = 0
 
           if (fw.contains('java')) {
             // Maven installation must be configured in Jenkins (Manage
@@ -48,9 +61,9 @@ pipeline {
             withEnv(["PATH+MAVEN=${mvnHome}/bin"]) {
               if (filter) {
                 def tags = filter.tokenize('|').collect { '@' + it.trim() }.join(' or ')
-                sh "mvn clean test \"-Dcucumber.filter.tags=${tags}\" \"-Dapp.url=${appUrl}\""
+                testExitCode = sh(returnStatus: true, script: "mvn clean test \"-Dcucumber.filter.tags=${tags}\" \"-Dapp.url=${appUrl}\"")
               } else {
-                sh "mvn clean test \"-Dapp.url=${appUrl}\""
+                testExitCode = sh(returnStatus: true, script: "mvn clean test \"-Dapp.url=${appUrl}\"")
               }
             }
           } else if (fw.contains('playwright-bdd') || (fw.contains('playwright') && fw.contains('bdd'))) {
@@ -59,24 +72,29 @@ pipeline {
             sh 'npm install --no-save ts-node typescript tsconfig-paths'
             if (filter) {
               def tags = filter.tokenize('|').collect { '@' + it.trim() }.join(' or ')
-              sh "npx cucumber-js \"src/features/**/*.feature\" --require-module ts-node/register --require \"src/steps/**/*.ts\" --tags \"${tags}\" --format junit:test-results/results.xml"
+              testExitCode = sh(returnStatus: true, script: "npx cucumber-js \"src/features/**/*.feature\" --require-module ts-node/register --require \"src/steps/**/*.ts\" --tags \"${tags}\" --format junit:test-results/results.xml")
             } else {
-              sh 'npx cucumber-js "src/features/**/*.feature" --require-module ts-node/register --require "src/steps/**/*.ts" --format junit:test-results/results.xml'
+              testExitCode = sh(returnStatus: true, script: 'npx cucumber-js "src/features/**/*.feature" --require-module ts-node/register --require "src/steps/**/*.ts" --format junit:test-results/results.xml')
             }
           } else if (fw.contains('playwright')) {
             sh 'npm install'
             sh 'npx playwright install chromium'
             if (filter) {
-              sh "npx playwright test --grep \"${filter}\" --reporter=junit"
+              testExitCode = sh(returnStatus: true, script: "npx playwright test --grep \"${filter}\" --reporter=junit")
             } else {
-              sh 'npx playwright test --reporter=junit'
+              testExitCode = sh(returnStatus: true, script: 'npx playwright test --reporter=junit')
             }
           } else if (fw.contains('cypress')) {
             sh 'npm install'
-            sh 'npx cypress run --reporter junit --reporter-options "mochaFile=cypress/results/results-[hash].xml"'
+            testExitCode = sh(returnStatus: true, script: 'npx cypress run --reporter junit --reporter-options "mochaFile=cypress/results/results-[hash].xml"')
           } else {
             sh 'npm ci 2>/dev/null || echo no npm'
-            sh 'mvn clean test 2>/dev/null || echo no mvn'
+            testExitCode = sh(returnStatus: true, script: 'mvn clean test 2>/dev/null || echo no mvn')
+          }
+
+          if (testExitCode != 0) {
+            echo "Test runner exited with code ${testExitCode} — real test failure(s), not a pipeline error. Continuing to publish results."
+            currentBuild.result = 'UNSTABLE'
           }
         }
       }
