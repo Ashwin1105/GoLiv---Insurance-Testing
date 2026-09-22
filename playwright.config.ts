@@ -4,28 +4,34 @@ export default defineConfig({
   testDir: './tests',
   timeout: 30_000,
   expect: {
-    timeout: 5000,
+    timeout: 5_000,
   },
   fullyParallel: true,
-  retries: 1,
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-    ['allure-playwright'],
-  ],
+  retries: process.env.CI ? 2 : 0,
+  reporter: [['list']],
   use: {
-    baseURL: 'http://localhost:5176',
+    baseURL: 'http://host.docker.internal:5176',
     headless: false,
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
-    ...devices['Desktop Chrome'],
   },
   projects: [
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        browserName: 'chromium',
+      },
+    },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+      },
+    },
+    {
+      name: 'webkit',
+      use: {
+        ...devices['Desktop Safari'],
       },
     },
   ],
