@@ -1,22 +1,15 @@
 {
-  "name": "insureco-portal-tests",
+  "name": "qa-automation-insurance",
   "version": "1.0.0",
-  "private": true,
-  "type": "module",
+  "description": "Deterministic Playwright-BDD (Cucumber-JS) automation",
   "scripts": {
-    "test": "cucumber-js",
-    "test:report": "cucumber-js --format @cucumber/pretty-formatter",
-    "playwright:install": "playwright install",
-    "playwright:test": "playwright test"
-  },
-  "dependencies": {
-    "@cucumber/cucumber": "^10.9.0",
-    "@playwright/test": "^1.53.0",
-    "allure-cucumberjs": "^3.10.2",
-    "typescript": "^5.9.2",
-    "ts-node": "^10.9.2"
+    "test": "cucumber-js \"src/features/**/*.feature\" --require-module ts-node/register --require \"src/steps/**/*.ts\" --format junit:test-results/results.xml"
   },
   "devDependencies": {
-    "@types/node": "^24.5.2"
+    "@cucumber/cucumber": "^10.9.0",
+    "@playwright/test": "^1.44.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "tsconfig-paths": "^4.2.0"
   }
 }
