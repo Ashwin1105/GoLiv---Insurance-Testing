@@ -1,18 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2021",
     "module": "commonjs",
-    "lib": ["ES2020", "DOM"],
+    "lib": ["ES2021", "DOM"],
+    "allowJs": false,
     "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": "src",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "types": ["node", "@cucumber/cucumber", "@playwright/test"],
-    "outDir": "./dist"
+    "types": ["node", "playwright", "cucumber"]
   },
-  "include": ["features/**/*.ts", "steps/**/*.ts", "support/**/*.ts", "hooks.ts", "**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
