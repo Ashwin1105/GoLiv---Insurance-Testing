@@ -40,7 +40,7 @@ async function softSet(page: any, t: string, v: string) {
 }
 async function ensureLoggedIn(page: any) { const u = page.getByTestId('login-username'); if (await u.count()) { await u.fill('admin'); await softFill(page, 'login-password', 'admin123'); await softClick(page, 'login-btn'); await page.waitForLoadState('networkidle'); } }
 
-Given('the user is logged in to the insurance portal', async function () { await this.page.goto('http://localhost:5176'); await this.page.waitForLoadState('networkidle'); await ensureLoggedIn(this.page); });
+Given('the user is logged in to the insurance portal', async function () { await this.page.goto('http://host.docker.internal:5176'); await this.page.waitForLoadState('networkidle'); await ensureLoggedIn(this.page); });
 When('the user opens the premium calculator', async function () { await softClick(this.page, 'nav-tab-1'); await this.page.waitForTimeout(300); });
 When('the user opens claim management', async function () { await softClick(this.page, 'nav-tab-2'); await this.page.waitForTimeout(300); });
 When('the user opens lapse and revival', async function () { await softClick(this.page, 'nav-tab-3'); await this.page.waitForTimeout(300); });
